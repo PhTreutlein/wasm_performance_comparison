@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Sorting Test</h1>
+    <main>
+      <div>Input your file:</div>
+      <input id="input" type="file" />
+      <button>Sort</button>
+      <div>Time: <span id="time"></span></div>
+      <h2>Result:</h2>
+      <textarea id="result" rows="40" cols="20"></textarea>
+    </main>
+    <script type="module">
+      import { insertionSort } from "./sort.js";
+      import init, { insertion_sort } from "./sort/pkg/sort.js";
+      init();
+
+      let input;
+
+      function invokeSort() {
+        // get the input from the uploaded text file
+        document
+          .getElementById("input")
+          .files[0].text()
+          .then((value) => (input = value));
+
+        const arrayStrings = input.split(" ");
+
+        const arrayNumbers = arrayStrings.map(function (x) {
+          return parseInt(x,10);
+        });
+        // start timer here
+        const t0 = performance.now();
+        // sorting algorithms:
+
+        // js
+        // const result = insertionSort(arrayNumbers);
+
+        // rust/wasm:
+        const result =insertion_sort(arrayNumbers);
+
+        // stop timer here
+        const t1 = performance.now();
+
+        const time = t1 - t0;
+
+        document.getElementById("time").innerHTML = `${time} ms`;
+        document.getElementById("result").innerHTML = result;
+      }
+
+      document.querySelector("button").addEventListener("click", invokeSort);
+    </script>
+  </body>
+</html>
+
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  button {
+    max-width: fit-content;
+  }
+</style>

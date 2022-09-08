@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Find the n-th Fibonacci Number</h1>
+    <main>
+      <label for="number">Input n</label>
+      <input id="number" type="number" name="number" />
+      <button>Find Fibonacci</button>
+      <h4>Result: <span id="result"></span></h4>
+      <div>Time: <span id="time"></span></div>
+    </main>
+    <script type="module">
+      import { fibonacciRecursive } from "./fibonacci.js";
+      import init, { fibonacci_recursive } from "./fibonacci/pkg/fibonacci.js";
+
+      init();
+
+      function invokeFibonacci() {
+
+        const n = parseInt(document.getElementById("number").value);
+
+        const t0 = performance.now();
+
+        // const result = fibonacciRecursive(n);
+        const result = fibonacci_recursive(n);
+
+        const t1 = performance.now();
+
+        const time = t1 - t0;
+
+        document.getElementById("time").innerHTML = `${time} ms`;
+        document.getElementById("result").innerHTML = result;
+      }
+      document
+        .querySelector("button")
+        .addEventListener("click", invokeFibonacci);
+    </script>
+  </body>
+</html> 
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  input {
+    max-width: 100px;
+  }
+
+  button {
+    max-width: fit-content;
+  }
+</style>
